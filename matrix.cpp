@@ -28,14 +28,14 @@ struct matrix
             for (int j = 0 ; j < x ; j++)
                 cout << arr[i][j] << " \n"[j == x - 1];
     }
-    matrix operator + (const matrix &o) const 
+    matrix addi(matrix a , int x)
     {
         matrix res;
-        for(int i=0;i<SZ;i++)
+        for(int i = 0 ; i < x ; i++)
         {
-            for(int j=0;j<SZ;j++)
+            for(int j = 0 ; j < x ; j++)
             {
-                res.arr[i][j] = add(arr[i][j], o.arr[i][j] , mod);
+                res.arr[i][j] = add(arr[i][j], a.arr[i][j] , mod);
             }
         }
         return res;
