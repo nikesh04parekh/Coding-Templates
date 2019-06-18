@@ -1,6 +1,3 @@
-int n;
-int a[500001];
-
 struct node {
     long long sum;
     node * left;
@@ -11,7 +8,8 @@ struct node {
         left = right = nullptr;
     }
 };
-node * trees[500001];
+
+node * trees[500000 + 5];
 
 node * build(int l, int r) {
     if (l == r) {
@@ -34,8 +32,9 @@ node * upd(node * rt, int l, int r, int pos, int val) {
         return nn;
     }
     node * nn = new node();
-    int mid = (l + r) / 2;
-    if (pos <= mid) {
+    int md = (l + r) / 2;
+    if (pos <= md) 
+    {
         nn->left = upd(rt->left , l, md, pos, val);
         nn->right = rt->right;
     }
@@ -48,26 +47,25 @@ node * upd(node * rt, int l, int r, int pos, int val) {
     return nn;
 }
 
-long long get(node * v, int l, int r, int tl, int tr)
+long long get(node * v , int l , int r , int k)
 {
-    if (l == tl && r == tr)
-        return v->sum;
+    //cout << l << " " << r << " " << v->sum << endl;
+    if (l == r)
+        return l;
     int md = (l + r) >> 1;
-    if (tr <= md) {
-        return get(v->left, l, md, tl, tr);
-    } else if (tl > md) {
-        return get(v->right, md+1, r, tl, tr);
-    } else {
-        return get(v->left, l, md, tl, md) + get(v->right, md+1, r, md+1, tr);
-    }
+    int leftvalue = v->left->sum;
+    if (leftvalue >= k)
+        return get(v->left , l , md , k);
+    else
+        return get(v->right , md + 1 , r , k - leftvalue);
 }
 
-void prepare()
+void print(node* v , int l , int r)
 {
-    trees[0] = build(1, n);
-    for(int i = 1; i <= n; ++i) 
-    {
-        int id = i;
-        trees[i] = upd(trees[i-1], 1, n, id, a[id]);
-    }
+    cout << l << " " << r << " " << v->sum << endl;
+    if (l == r)
+        return;
+    int m = (l + r) / 2;
+    print(v->left , l , m);
+    print(v->right , m + 1 , r);
 }
